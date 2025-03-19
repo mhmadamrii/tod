@@ -1,0 +1,15 @@
+You have a small garden with two types of flowers: Roses and Tulips. You've measured the petal length and petal width of some flowers and recorded their types. Now, you find a new flower and want to determine whether it's a Rose or a Tulip based on its petal length and width.
+
+Petal Length (cm)	Petal Width (cm)	Flower Type
+3	                1	                Rose
+3.5	                1.2	                Rose
+4	                1.5	                Rose
+5	                2	                Tulip
+5.5	                2.2	                Tulip
+6	                2.5	                Tulip
+
+
+And the new flower you found has:
+
+Petal Length: 4.5 cm
+Petal Width: 1.8 cm
