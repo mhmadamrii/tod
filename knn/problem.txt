@@ -13,3 +13,6 @@ And the new flower you found has:
 
 Petal Length: 4.5 cm
 Petal Width: 1.8 cm
+
+2. Problem: Fruit Classification
+A fruit vendor wants to automate the classification of fruits based on their physical characteristics. Given a dataset of fruits with their weights (in grams) and diameters (in cm), create a k-NN model to classify new fruits as either "Apple" or "Orange".
