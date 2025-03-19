@@ -1,39 +1,48 @@
-# k_nearest_neighbors
+from sklearn.neighbors import KNeighborsClassifier
+import numpy as np
+import matplotlib.pyplot as plt
 
-def k_nearest_neighbors(X_train, y_train, X_test, k):
-    def euclidean_distance(point1, point2):
-        distance = 0
-        for i in range(len(point1)):
-            distance += (point1[i] - point2[i]) ** 2
-        return distance ** 0.5
+# Sample dataset
+# Features: [weight (grams), diameter (cm)]
+# Labels: 0 = Apple, 1 = Orange
 
-    def get_neighbors(train_data, train_labels, test_point, k):
-        distances = []
-        for i in range(len(train_data)):
-            dist = euclidean_distance(test_point, train_data[i])
-            distances.append((dist, train_labels[i]))
-        distances.sort(key=lambda x: x[0])  # Sort by distance
-        neighbors = [label for dist, label in distances[:k]]
-        return neighbors
+X = np.array([
+    [140, 7.5],  # Apple
+    [130, 7.0],  # Apple
+    [150, 7.8],  # Apple
+    [120, 6.8],  # Apple
+    [170, 8.0],  # Orange
+    [180, 8.5],  # Orange
+    [160, 8.2],  # Orange
+    [190, 8.8]   # Orange
+])
 
-    def predict(neighbors):
-        counts = {}
-        for neighbor in neighbors:
-            counts[neighbor] = counts.get(neighbor, 0) + 1
-        return max(counts, key=counts.get)  # Return label with highest count
+y = np.array([0, 0, 0, 0, 1, 1, 1, 1])
 
-    predictions = []
-    for test_point in X_test:
-        neighbors = get_neighbors(X_train, y_train, test_point, k)
-        predictions.append(predict(neighbors))
+knn = KNeighborsClassifier(n_neighbors=3)
+knn.fit(X, y)
 
-    return predictions
+def classify_fruit(weight, diameter):
+    new_fruit = np.array([[weight, diameter]])
+    prediction = knn.predict(new_fruit)
+    return "Apple" if prediction[0] == 0 else "Orange"
 
-# Example Usage:
-X_train = [[1, 2], [2, 3], [3, 1], [4, 5], [5, 4]]
-y_train = [0, 0, 1, 1, 1]
-X_test = [[2, 2], [4, 3]]
-k = 3
+test_fruits = [
+    [145, 7.4],
+    [175, 8.3] 
+]
 
-predictions = k_nearest_neighbors(X_train, y_train, X_test, k)
-print(predictions)  # Output: [0, 1]
+print("Predictions:")
+for fruit in test_fruits:
+    result = classify_fruit(fruit[0], fruit[1])
+    print(f"Fruit with weight {fruit[0]}g and diameter {fruit[1]}cm is a {result}")
+
+plt.scatter(X[y==0, 0], X[y==0, 1], c='red', label='Apples')
+plt.scatter(X[y==1, 0], X[y==1, 1], c='orange', label='Oranges')
+plt.scatter([t[0] for t in test_fruits], [t[1] for t in test_fruits], 
+           c='blue', label='Test Fruits')
+plt.xlabel('Weight (grams)')
+plt.ylabel('Diameter (cm)')
+plt.legend()
+plt.title('Fruit Classification using k-NN')
+plt.show()
